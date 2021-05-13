@@ -163,53 +163,13 @@ router.route('/:userId/playlists/:playlistId/:videoId')
   .post(async (req, res) => {
     const { user } = req;
     const { playlistId, videoId } = req.params;
-    const updatePlaylist = req.body;
     const playlist = user.playlists.find(item => item._id == playlistId);
-    console.log(playlist);
     if (playlist) {
       const updatedVideoPlaylist = playlist.videos.filter((item) => item.videoId !== videoId);
-      console.log(updatedVideoPlaylist);
-      const updatedPlaylist = extend(playlist, updatePlaylist)
+      const updatedPlaylist = extend(playlist, { videos: updatedVideoPlaylist })
       await user.save();
-      console.log(updatedPlaylist);
       return res.status(201).json({ playlists: updatedPlaylist, success: true, message: "Successful" });
     }
   })
 
-// update single video from playlist (delete video from playlist)
-
 module.exports = router;
-
-// router.route('/:userId/playlists/:playlistId/:videoId')
-//   .post(async (req, res) => {
-//     const { user } = req;
-//     const { playlistId, videoId } = req.params;
-//     const playlist = user.playlists.find(item => item._id == playlistId);
-//     console.log(playlist);
-//     console.log(videoId);
-//     if (playlist) {
-//       let updatedPlaylist =
-//       //   // await UserDetail.update(conditions, updates, options, callback);
-//       // // await User.updateOne(
-//       // //   {
-//       // //     _id: userId,
-//       // //     playlists._id: playlistId
-//       // //   },
-//       // //   {
-//       // //     $push: { 'playlists.videos': videoIs }
-//       // //   }
-//       // // )
-//       await UserDetail.findOneAndUpdate({ 'playlists._id': playlistId },
-//         { "$push": { "playlists": { "videos": videoId } } }, (err, results) => {
-//           if (err) {
-//             console.log(err);
-//           } else {
-//             console.log(results);
-//           }
-//         });
-//       // user.playlists.push({ videos: [videoId] });
-//       // const updatedPlaylist = await user.save();
-//       console.log(updatedPlaylist);
-//       return res.status(201).json({ playlists: updatedPlaylist, success: true, message: "Successful" });
-//     }
-//   })
