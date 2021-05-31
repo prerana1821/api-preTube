@@ -7,7 +7,7 @@ router.get("/", async (req, res) => {
     const videos = await Video.find({});
     res.status(200).json({ videos, success: true, message: "Successful" })
   } catch (error) {
-    res.status(404).json({ success: false, message: "Error while retrieving videos", errorMessage: error.message })
+    res.status(404).json({ success: false, errorMessage: "Error while retrieving videos", errorMessage: error.message })
   }
 })
 
@@ -17,7 +17,7 @@ router.get("/:id", async (req, res) => {
   video.__v = undefined;
   if (video) {
     return res.status(200).json({ video, success: true, message: "Successful" })
-  } res.status(404).json({ success: false, message: "The video ID sent has no video associated with it. Check and try again" })
+  } res.status(404).json({ success: false, errorMessage: "The video ID sent has no video associated with it. Check and try again" })
 });
 
 module.exports = router;

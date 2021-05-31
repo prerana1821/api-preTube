@@ -9,6 +9,7 @@ const userCredentail = require('./routes/userCredentials.route');
 const userDetail = require('./routes/userDetails.route');
 const { errorHandler } = require('./middlewares/error-handler.middleware');
 const { routeNotFound } = require('./middlewares/route-not-found.middleware');
+const { authVerify } = require('./middlewares/auth-verify.middleware');
 
 const app = express();
 const PORT = 3000;
@@ -22,7 +23,7 @@ initializeDatabase();
 
 app.use('/videos', video);
 app.use('/auth', userCredentail);
-app.use('/userDetails', userDetail);
+app.use('/userDetails', authVerify, userDetail);
 
 app.get('/', (req, res) => {
   res.send('Hello preTube!')
